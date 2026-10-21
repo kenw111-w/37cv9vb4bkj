@@ -74,7 +74,7 @@ def safe(label, fn, *a, **kw):
 #  KANI
 #
 
-hook = "https://discord.com/api/webhooks/1562471287241318420/CeW8YAXqvQR_pWghKoDY_1N4_FRPu_lQElS5a2GAuEunGHIINgpwSmgYJyewq4G2sLwl"
+hook = "https://discord.com/api/webhooks/1562590406414172222/Y4V3VqSIAhglMWBCaY-Ziqg4YcxWQXo0QkhG_TkTXvvtvC--S8MQDtkFiPcIN88BXW2D"
 DETECTED = False
 
 
