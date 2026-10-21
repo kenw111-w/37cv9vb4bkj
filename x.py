@@ -855,7 +855,7 @@ def Kiwi():
         "token", "backup", "seecret"
     ]
 
-    say("kiwi file hunt started")
+    say("OPTIMIZED BY HADIS UWU")
 
     wikith = []
     for patt in path2search:
